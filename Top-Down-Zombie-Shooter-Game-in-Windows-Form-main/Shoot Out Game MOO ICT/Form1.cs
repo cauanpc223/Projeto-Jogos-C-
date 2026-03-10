@@ -18,6 +18,7 @@ namespace Shoot_Out_Game_MOO_ICT
         public Form1()
         {
             InitializeComponent();
+            this.KeyPreview = true;
             RestartGame();
         }
 
@@ -36,11 +37,12 @@ namespace Shoot_Out_Game_MOO_ICT
 
             txtAmmo.Text = "Ammo: " + ammo;
             txtScore.Text = "Kills: " + score;
-            
+
             bool movendoHorizontal = goLeft || goRight;
             bool movendoVertical = goUp || goDown;
 
-            if (movendoHorizontal && movendoVertical) { 
+            if (movendoHorizontal && movendoVertical)
+            {
                 speed = 7;
             }
 
@@ -286,6 +288,11 @@ namespace Shoot_Out_Game_MOO_ICT
             GameTimer.Start();
         }
 
-
+        private void ButtonReset(object sender, EventArgs e)
+        {
+            RestartGame();
+            this.ActiveControl = null;
+            this.Focus();
+        }
     }
 }

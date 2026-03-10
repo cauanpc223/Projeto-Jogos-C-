@@ -28,96 +28,111 @@
         /// </summary>
         private void InitializeComponent()
         {
-            //this.components = new System.ComponentModel.Container();
-            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.ClientSize = new System.Drawing.Size(800, 450);
-            //this.Text = "Form1";
-
-            this.components = new System.ComponentModel.Container();
-            this.txtAmmo = new System.Windows.Forms.Label();
-            this.txtScore = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.healthBar = new System.Windows.Forms.ProgressBar();
-            this.player = new System.Windows.Forms.PictureBox();
-            this.GameTimer = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.player)).BeginInit();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            txtAmmo = new Label();
+            txtScore = new Label();
+            label1 = new Label();
+            healthBar = new ProgressBar();
+            player = new PictureBox();
+            GameTimer = new System.Windows.Forms.Timer(components);
+            buttonReset = new Button();
+            ((System.ComponentModel.ISupportInitialize)player).BeginInit();
+            SuspendLayout();
             // 
             // txtAmmo
             // 
-            this.txtAmmo.AutoSize = true;
-            this.txtAmmo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAmmo.ForeColor = System.Drawing.Color.White;
-            this.txtAmmo.Location = new System.Drawing.Point(13, 13);
-            this.txtAmmo.Name = "txtAmmo";
-            this.txtAmmo.Size = new System.Drawing.Size(93, 24);
-            this.txtAmmo.TabIndex = 0;
-            this.txtAmmo.Text = "Ammo: 0";
+            txtAmmo.AutoSize = true;
+            txtAmmo.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtAmmo.ForeColor = Color.White;
+            txtAmmo.Location = new Point(22, 25);
+            txtAmmo.Margin = new Padding(5, 0, 5, 0);
+            txtAmmo.Name = "txtAmmo";
+            txtAmmo.Size = new Size(139, 33);
+            txtAmmo.TabIndex = 0;
+            txtAmmo.Text = "Ammo: 0";
             // 
             // txtScore
             // 
-            this.txtScore.AutoSize = true;
-            this.txtScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtScore.ForeColor = System.Drawing.Color.White;
-            this.txtScore.Location = new System.Drawing.Point(368, 13);
-            this.txtScore.Name = "txtScore";
-            this.txtScore.Size = new System.Drawing.Size(71, 24);
-            this.txtScore.TabIndex = 0;
-            this.txtScore.Text = "Kills: 0";
+            txtScore.AutoSize = true;
+            txtScore.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtScore.ForeColor = Color.White;
+            txtScore.Location = new Point(613, 25);
+            txtScore.Margin = new Padding(5, 0, 5, 0);
+            txtScore.Name = "txtScore";
+            txtScore.Size = new Size(110, 33);
+            txtScore.TabIndex = 0;
+            txtScore.Text = "Kills: 0";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(643, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 24);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Health: ";
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(1072, 25);
+            label1.Margin = new Padding(5, 0, 5, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(123, 33);
+            label1.TabIndex = 0;
+            label1.Text = "Health: ";
             // 
             // healthBar
             // 
-            this.healthBar.Location = new System.Drawing.Point(725, 13);
-            this.healthBar.Name = "healthBar";
-            this.healthBar.Size = new System.Drawing.Size(187, 23);
-            this.healthBar.TabIndex = 1;
-            this.healthBar.Value = 100;
+            healthBar.Location = new Point(1208, 25);
+            healthBar.Margin = new Padding(5, 6, 5, 6);
+            healthBar.Name = "healthBar";
+            healthBar.Size = new Size(312, 44);
+            healthBar.TabIndex = 1;
+            healthBar.Value = 100;
             // 
             // player
             // 
-            this.player.Image = global::Shoot_Out_Game_MOO_ICT.Properties.Resources.up;
-            this.player.Location = new System.Drawing.Point(427, 471);
-            this.player.Name = "player";
-            this.player.Size = new System.Drawing.Size(71, 100);
-            this.player.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.player.TabIndex = 2;
-            this.player.TabStop = false;
+            player.Image = Properties.Resources.up;
+            player.Location = new Point(712, 906);
+            player.Margin = new Padding(5, 6, 5, 6);
+            player.Name = "player";
+            player.Size = new Size(71, 100);
+            player.SizeMode = PictureBoxSizeMode.AutoSize;
+            player.TabIndex = 2;
+            player.TabStop = false;
             // 
             // GameTimer
             // 
-            this.GameTimer.Enabled = true;
-            this.GameTimer.Interval = 20;
-            this.GameTimer.Tick += new System.EventHandler(this.MainTimerEvent);
+            GameTimer.Enabled = true;
+            GameTimer.Interval = 20;
+            GameTimer.Tick += MainTimerEvent;
+            // 
+            // buttonReset
+            // 
+            buttonReset.Location = new Point(613, 76);
+            buttonReset.Name = "buttonReset";
+            buttonReset.Size = new Size(112, 34);
+            buttonReset.TabIndex = 3;
+            buttonReset.TabStop = false;
+            buttonReset.Text = "Reset";
+            buttonReset.TabStop = false;
+            buttonReset.UseVisualStyleBackColor = true;
+            buttonReset.Click += ButtonReset;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(924, 661);
-            this.Controls.Add(this.player);
-            this.Controls.Add(this.healthBar);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtScore);
-            this.Controls.Add(this.txtAmmo);
-            this.Name = "Form1";
-            this.Text = "Zombie Shootout Game MOO ICT";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyIsDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.KeyIsUp);
-            ((System.ComponentModel.ISupportInitialize)(this.player)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(64, 64, 64);
+            ClientSize = new Size(1540, 1271);
+            Controls.Add(buttonReset);
+            Controls.Add(player);
+            Controls.Add(healthBar);
+            Controls.Add(label1);
+            Controls.Add(txtScore);
+            Controls.Add(txtAmmo);
+            Margin = new Padding(5, 6, 5, 6);
+            Name = "Form1";
+            Text = "Zombie Shootout Game MOO ICT";
+            KeyDown += KeyIsDown;
+            KeyUp += KeyIsUp;
+            ((System.ComponentModel.ISupportInitialize)player).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
 
         }
@@ -130,5 +145,6 @@
         private System.Windows.Forms.ProgressBar healthBar;
         private System.Windows.Forms.PictureBox player;
         private System.Windows.Forms.Timer GameTimer;
+        private Button buttonReset;
     }
 }
