@@ -36,6 +36,13 @@ namespace Shoot_Out_Game_MOO_ICT
 
             txtAmmo.Text = "Ammo: " + ammo;
             txtScore.Text = "Kills: " + score;
+            
+            bool movendoHorizontal = goLeft || goRight;
+            bool movendoVertical = goUp || goDown;
+
+            if (movendoHorizontal && movendoVertical) { 
+                speed = 7;
+            }
 
             if (goLeft == true && player.Left > 0)
             {
