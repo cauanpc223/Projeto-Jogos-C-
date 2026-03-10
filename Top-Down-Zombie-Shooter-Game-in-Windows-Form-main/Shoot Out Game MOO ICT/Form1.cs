@@ -136,28 +136,28 @@ namespace Shoot_Out_Game_MOO_ICT
                 return;
             }
 
-            if (e.KeyCode == Keys.Left)
+            if (e.KeyCode == Keys.A)
             {
                 goLeft = true;
                 facing = "left";
                 player.Image = Properties.Resources.left;
             }
 
-            if (e.KeyCode == Keys.Right)
+            if (e.KeyCode == Keys.D)
             {
                 goRight = true;
                 facing = "right";
                 player.Image = Properties.Resources.right;
             }
 
-            if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.W)
             {
                 goUp = true;
                 facing = "up";
                 player.Image = Properties.Resources.up;
             }
 
-            if (e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.S)
             {
                 goDown = true;
                 facing = "down";
@@ -170,22 +170,22 @@ namespace Shoot_Out_Game_MOO_ICT
 
         private void KeyIsUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Left)
+            if (e.KeyCode == Keys.A)
             {
                 goLeft = false;
             }
 
-            if (e.KeyCode == Keys.Right)
+            if (e.KeyCode == Keys.D)
             {
                 goRight = false;
             }
 
-            if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.W)
             {
                 goUp = false;
             }
 
-            if (e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.S)
             {
                 goDown = false;
             }
