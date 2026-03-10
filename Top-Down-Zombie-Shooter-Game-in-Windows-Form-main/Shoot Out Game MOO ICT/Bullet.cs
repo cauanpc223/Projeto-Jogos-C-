@@ -65,7 +65,7 @@ namespace Shoot_Out_Game_MOO_ICT
             }
 
 
-            if (bullet.Left < 10 || bullet.Left > 860 || bullet.Top < 10 || bullet.Top > 600)
+            if (bullet.Left < 10 || bullet.Left > 1920 || bullet.Top < 10 || bullet.Top > 1080)
             {
                 bulletTimer.Stop();
                 bulletTimer.Dispose();
