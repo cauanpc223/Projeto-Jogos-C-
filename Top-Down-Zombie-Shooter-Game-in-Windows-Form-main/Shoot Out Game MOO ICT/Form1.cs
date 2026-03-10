@@ -15,6 +15,7 @@ namespace Shoot_Out_Game_MOO_ICT
         int score;
         List<PictureBox> zombiesList = new List<PictureBox>();
 
+        //Inicia o Programa
         public Form1()
         {
             InitializeComponent();
