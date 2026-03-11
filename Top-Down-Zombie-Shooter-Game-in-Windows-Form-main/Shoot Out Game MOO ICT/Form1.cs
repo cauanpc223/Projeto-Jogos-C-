@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Media;
 
 namespace Shoot_Out_Game_MOO_ICT
 {
@@ -120,6 +121,8 @@ namespace Shoot_Out_Game_MOO_ICT
                         {
                             score++;
 
+                            SoundPlayer player = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\454837__misterkidx__zombie_hit.wav");
+                            player.Play();
                             this.Controls.Remove(j);
                             ((PictureBox)j).Dispose();
                             this.Controls.Remove(x);
@@ -141,6 +144,8 @@ namespace Shoot_Out_Game_MOO_ICT
                                 giantHits[giant] = 0;
 
                             giantHits[giant]++;
+                            SoundPlayer player = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\giant_zombie_grunt.wav");
+                            player.Play();
 
                             if (giantHits[giant] >= 3)
                             {
@@ -150,6 +155,7 @@ namespace Shoot_Out_Game_MOO_ICT
                                 giant.Dispose();
                                 zombiesList.Remove(giant);
                                 MakeZombies();
+                                DropAmmo();
                             }
                         }
                     }
