@@ -4,6 +4,7 @@ namespace Shoot_Out_Game_MOO_ICT
 {
     public partial class Form1 : Form
     {
+        //Atributes
         bool healthDropped = false;
         bool goLeft, goRight, goUp, goDown, gameOver;
         string facing = "up";
