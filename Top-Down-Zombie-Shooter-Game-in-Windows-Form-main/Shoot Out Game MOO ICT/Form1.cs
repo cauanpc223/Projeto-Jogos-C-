@@ -358,6 +358,10 @@ namespace Shoot_Out_Game_MOO_ICT
             healthDropped = false;
             player.Image = Properties.Resources.up;
 
+            playerHealth = 100;
+            score = 0;
+            ammo = 10;
+
             foreach (PictureBox i in zombiesList)
             {
                 this.Controls.Remove(i);
@@ -376,10 +380,6 @@ namespace Shoot_Out_Game_MOO_ICT
             goLeft = false;
             goRight = false;
             gameOver = false;
-
-            playerHealth = 100;
-            score = 0;
-            ammo = 10;
 
             GameTimer.Start();
         }
