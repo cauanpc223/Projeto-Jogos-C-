@@ -19,6 +19,7 @@ namespace Shoot_Out_Game_MOO_ICT
         int elapsedTime = 0;
         int totalSeconds = 0;
         int elapsedMilliseconds = 0;
+        DateTime lastDamageTime = DateTime.MinValue;
 
         Dictionary<PictureBox, int> giantHits = new Dictionary<PictureBox, int>();
 
@@ -90,6 +91,8 @@ namespace Shoot_Out_Game_MOO_ICT
                 {
                     if (player.Bounds.IntersectsWith(x.Bounds))
                     {
+                        SoundPlayer reloadSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\reload.wav");
+                        reloadSound.Play();
                         this.Controls.Remove(x);
                         ((PictureBox)x).Dispose();
                         ammo += 5;
@@ -100,7 +103,15 @@ namespace Shoot_Out_Game_MOO_ICT
                 {
                     if (player.Bounds.IntersectsWith(x.Bounds))
                     {
-                        playerHealth -= 1;
+                        if ((DateTime.Now - lastDamageTime).TotalMilliseconds >= 1000)
+                        {
+                            SoundPlayer playerDamageSound = new SoundPlayer(@"C:\Users\igore\source\repos\cauanpc223\Projeto-Jogos-C-\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\Shoot Out Game MOO ICT\Resources\Sounds\player_damage.wav");
+                            playerDamageSound.Play();
+
+                            playerHealth -= 22;
+
+                            lastDamageTime = DateTime.Now;
+                        }
                     }
 
                     if (x.Left > player.Left)
@@ -133,8 +144,8 @@ namespace Shoot_Out_Game_MOO_ICT
                         {
                             score++;
 
-                            SoundPlayer player = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\454837__misterkidx__zombie_hit.wav");
-                            player.Play();
+                            SoundPlayer zombieGruntSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\454837__misterkidx__zombie_hit.wav");
+                            zombieGruntSound.Play();
                             this.Controls.Remove(j);
                             ((PictureBox)j).Dispose();
                             this.Controls.Remove(x);
@@ -156,8 +167,8 @@ namespace Shoot_Out_Game_MOO_ICT
                                 giantHits[giant] = 0;
 
                             giantHits[giant]++;
-                            SoundPlayer player = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\giant_zombie_grunt.wav");
-                            player.Play();
+                            SoundPlayer giantGruntSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\giant_zombie_grunt.wav");
+                            giantGruntSound.Play();
 
                             if (giantHits[giant] >= 3)
                             {
@@ -177,6 +188,8 @@ namespace Shoot_Out_Game_MOO_ICT
                 {
                     if (player.Bounds.IntersectsWith(x.Bounds))
                     {
+                        SoundPlayer healSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\heal.wav");
+                        healSound.Play();
                         this.Controls.Remove(x);
                         ((PictureBox)x).Dispose();
                         playerHealth = Math.Min(playerHealth + 30, 100);
@@ -246,13 +259,22 @@ namespace Shoot_Out_Game_MOO_ICT
 
             if (e.KeyCode == Keys.Space && ammo > 0 && gameOver == false)
             {
+
                 ammo--;
+                SoundPlayer gunShotSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\gun_shot.wav");
+                gunShotSound.Play();
                 ShootBullet(facing);
 
                 if (ammo < 1)
                 {
                     DropAmmo();
                 }
+            }
+
+            if(e.KeyCode == Keys.Space && ammo == 0 && gameOver == false)
+            {
+                SoundPlayer gunWithoutAmmoSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\shooting_without_ammo.wav");
+                gunWithoutAmmoSound.Play();
             }
 
             if (e.KeyCode == Keys.Enter && gameOver == true)
@@ -315,10 +337,13 @@ namespace Shoot_Out_Game_MOO_ICT
         {
             PictureBox health = new PictureBox();
             health.Image = Properties.Resources.Cura;
-            health.Size = new Size(130, 130);
+            health.SizeMode = PictureBoxSizeMode.StretchImage;
+            health.Size = new Size(48, 48);
+
             health.Left = randNum.Next(10, this.ClientSize.Width - health.Width);
             health.Top = randNum.Next(60, this.ClientSize.Height - health.Height);
             health.Tag = "health";
+
             this.Controls.Add(health);
             health.BringToFront();
             player.BringToFront();
