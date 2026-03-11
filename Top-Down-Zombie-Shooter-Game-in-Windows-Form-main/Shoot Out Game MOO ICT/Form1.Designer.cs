@@ -36,6 +36,7 @@
             player = new PictureBox();
             GameTimer = new System.Windows.Forms.Timer(components);
             buttonReset = new Button();
+            txtTime = new Label();
             ((System.ComponentModel.ISupportInitialize)player).BeginInit();
             SuspendLayout();
             // 
@@ -103,15 +104,25 @@
             // 
             // buttonReset
             // 
-            buttonReset.Location = new Point(613, 76);
+            buttonReset.Location = new Point(613, 122);
             buttonReset.Name = "buttonReset";
             buttonReset.Size = new Size(112, 34);
             buttonReset.TabIndex = 3;
             buttonReset.TabStop = false;
             buttonReset.Text = "Reset";
-            buttonReset.TabStop = false;
             buttonReset.UseVisualStyleBackColor = true;
             buttonReset.Click += ButtonReset;
+            // 
+            // txtTime
+            // 
+            txtTime.AutoSize = true;
+            txtTime.Font = new Font("Segoe UI", 15F);
+            txtTime.Location = new Point(603, 68);
+            txtTime.Name = "txtTime";
+            txtTime.Size = new Size(144, 41);
+            txtTime.TabIndex = 4;
+            txtTime.Text = "00:00:000";
+            txtTime.Click += label2_Click;
             // 
             // Form1
             // 
@@ -119,6 +130,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
             ClientSize = new Size(1540, 1271);
+            Controls.Add(txtTime);
             Controls.Add(buttonReset);
             Controls.Add(player);
             Controls.Add(healthBar);
@@ -146,5 +158,6 @@
         private System.Windows.Forms.PictureBox player;
         private System.Windows.Forms.Timer GameTimer;
         private Button buttonReset;
+        private Label txtTime;
     }
 }

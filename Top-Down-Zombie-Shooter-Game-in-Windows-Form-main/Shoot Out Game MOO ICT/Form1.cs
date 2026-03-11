@@ -16,6 +16,9 @@ namespace Shoot_Out_Game_MOO_ICT
         Random randNum = new Random();
         int score;
         List<PictureBox> zombiesList = new List<PictureBox>();
+        int elapsedTime = 0;
+        int totalSeconds = 0;
+        int elapsedMilliseconds = 0;
 
         Dictionary<PictureBox, int> giantHits = new Dictionary<PictureBox, int>();
 
@@ -28,6 +31,15 @@ namespace Shoot_Out_Game_MOO_ICT
 
         private void MainTimerEvent(object sender, EventArgs e)
         {
+
+            elapsedMilliseconds += GameTimer.Interval;
+
+            int minutes = elapsedMilliseconds / 60000;
+            int seconds = (elapsedMilliseconds % 60000) / 1000;
+            int milliseconds = (elapsedMilliseconds % 1000);
+
+            txtTime.Text = $"{minutes:00}:{seconds:00}:{milliseconds:000}";
+
             if (playerHealth > 1)
             {
                 healthBar.Value = playerHealth;
@@ -314,6 +326,10 @@ namespace Shoot_Out_Game_MOO_ICT
 
         private void RestartGame()
         {
+
+            elapsedMilliseconds = 0;
+            txtTime.Text = "00:00:000";
+
             healthDropped = false;
             player.Image = Properties.Resources.up;
 
@@ -348,6 +364,11 @@ namespace Shoot_Out_Game_MOO_ICT
             RestartGame();
             this.ActiveControl = null;
             this.Focus();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
