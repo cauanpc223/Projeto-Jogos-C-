@@ -4,7 +4,6 @@ namespace Shoot_Out_Game_MOO_ICT
 {
     public partial class Form1 : Form
     {
-        // VARIABLES
         bool healthDropped = false;
         bool goLeft, goRight, goUp, goDown, gameOver;
         string facing = "up";
@@ -16,7 +15,8 @@ namespace Shoot_Out_Game_MOO_ICT
         int score;
         List<PictureBox> zombiesList = new List<PictureBox>();
 
-        //Inicia o Programa
+        Dictionary<PictureBox, int> giantHits = new Dictionary<PictureBox, int>();
+
         public Form1()
         {
             InitializeComponent();
@@ -70,8 +70,6 @@ namespace Shoot_Out_Game_MOO_ICT
                 player.Top += speed;
             }
 
-
-
             foreach (Control x in this.Controls)
             {
                 if (x is PictureBox && (string)x.Tag == "ammo")
@@ -81,19 +79,15 @@ namespace Shoot_Out_Game_MOO_ICT
                         this.Controls.Remove(x);
                         ((PictureBox)x).Dispose();
                         ammo += 5;
-
                     }
                 }
 
-
-                if (x is PictureBox && (string)x.Tag == "zombie")
+                if (x is PictureBox && ((string)x.Tag == "zombie" || (string)x.Tag == "zombie_giant"))
                 {
-
                     if (player.Bounds.IntersectsWith(x.Bounds))
                     {
                         playerHealth -= 1;
                     }
-
 
                     if (x.Left > player.Left)
                     {
@@ -115,10 +109,7 @@ namespace Shoot_Out_Game_MOO_ICT
                         x.Top += zombieSpeed;
                         ((PictureBox)x).Image = Properties.Resources.zdown;
                     }
-
                 }
-
-
 
                 foreach (Control j in this.Controls)
                 {
@@ -136,6 +127,31 @@ namespace Shoot_Out_Game_MOO_ICT
                             MakeZombies();
                         }
                     }
+
+                    if (j is PictureBox && (string)j.Tag == "bullet" && x is PictureBox && (string)x.Tag == "zombie_giant")
+                    {
+                        if (x.Bounds.IntersectsWith(j.Bounds))
+                        {
+                            this.Controls.Remove(j);
+                            ((PictureBox)j).Dispose();
+
+                            PictureBox giant = (PictureBox)x;
+                            if (!giantHits.ContainsKey(giant))
+                                giantHits[giant] = 0;
+
+                            giantHits[giant]++;
+
+                            if (giantHits[giant] >= 3)
+                            {
+                                score++;
+                                giantHits.Remove(giant);
+                                this.Controls.Remove(giant);
+                                giant.Dispose();
+                                zombiesList.Remove(giant);
+                                MakeZombies();
+                            }
+                        }
+                    }
                 }
 
                 if (x is PictureBox && (string)x.Tag == "health")
@@ -145,19 +161,14 @@ namespace Shoot_Out_Game_MOO_ICT
                         this.Controls.Remove(x);
                         ((PictureBox)x).Dispose();
                         playerHealth = Math.Min(playerHealth + 30, 100);
-                        healthDropped = false; 
+                        healthDropped = false;
                     }
                 }
-
-
             }
-
-
         }
 
         private void KeyIsDown(object sender, KeyEventArgs e)
         {
-
             if (gameOver == true)
             {
                 return;
@@ -190,9 +201,6 @@ namespace Shoot_Out_Game_MOO_ICT
                 facing = "down";
                 player.Image = Properties.Resources.down;
             }
-
-
-
         }
 
         private void KeyIsUp(object sender, KeyEventArgs e)
@@ -222,7 +230,6 @@ namespace Shoot_Out_Game_MOO_ICT
                 ammo--;
                 ShootBullet(facing);
 
-
                 if (ammo < 1)
                 {
                     DropAmmo();
@@ -233,7 +240,6 @@ namespace Shoot_Out_Game_MOO_ICT
             {
                 RestartGame();
             }
-
         }
 
         private void ShootBullet(string direction)
@@ -248,20 +254,32 @@ namespace Shoot_Out_Game_MOO_ICT
         private void MakeZombies()
         {
             PictureBox zombie = new PictureBox();
-            zombie.Tag = "zombie";
+
+            bool isGiant = (score > 0 && score % 10 == 0);
+
             zombie.Image = Properties.Resources.zdown;
             zombie.Left = randNum.Next(0, 900);
             zombie.Top = randNum.Next(0, 800);
-            zombie.SizeMode = PictureBoxSizeMode.AutoSize;
+
+            if (isGiant)
+            {
+                zombie.Tag = "zombie_giant";
+                zombie.SizeMode = PictureBoxSizeMode.StretchImage;
+                zombie.Size = new Size(144, 144);
+            }
+            else
+            {
+                zombie.Tag = "zombie";
+                zombie.SizeMode = PictureBoxSizeMode.AutoSize;
+            }
+
             zombiesList.Add(zombie);
             this.Controls.Add(zombie);
             player.BringToFront();
-
         }
 
         private void DropAmmo()
         {
-
             PictureBox ammo = new PictureBox();
             ammo.Image = Properties.Resources.ammo_Image;
             ammo.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -272,9 +290,6 @@ namespace Shoot_Out_Game_MOO_ICT
 
             ammo.BringToFront();
             player.BringToFront();
-
-
-
         }
 
         private void DropHealth()
@@ -301,6 +316,7 @@ namespace Shoot_Out_Game_MOO_ICT
             }
 
             zombiesList.Clear();
+            giantHits.Clear();
 
             for (int i = 0; i < 3; i++)
             {
