@@ -5,6 +5,7 @@ namespace Shoot_Out_Game_MOO_ICT
     public partial class Form1 : Form
     {
         // VARIABLES
+        bool healthDropped = false;
         bool goLeft, goRight, goUp, goDown, gameOver;
         string facing = "up";
         int playerHealth = 100;
@@ -34,6 +35,11 @@ namespace Shoot_Out_Game_MOO_ICT
                 gameOver = true;
                 player.Image = Properties.Resources.dead;
                 GameTimer.Stop();
+            }
+            if (playerHealth <= 20 && !healthDropped)
+            {
+                DropHealth();
+                healthDropped = true;
             }
 
             txtAmmo.Text = "Ammo: " + ammo;
@@ -129,6 +135,17 @@ namespace Shoot_Out_Game_MOO_ICT
                             zombiesList.Remove(((PictureBox)x));
                             MakeZombies();
                         }
+                    }
+                }
+
+                if (x is PictureBox && (string)x.Tag == "health")
+                {
+                    if (player.Bounds.IntersectsWith(x.Bounds))
+                    {
+                        this.Controls.Remove(x);
+                        ((PictureBox)x).Dispose();
+                        playerHealth = Math.Min(playerHealth + 30, 100);
+                        healthDropped = false; 
                     }
                 }
 
@@ -260,8 +277,22 @@ namespace Shoot_Out_Game_MOO_ICT
 
         }
 
+        private void DropHealth()
+        {
+            PictureBox health = new PictureBox();
+            health.Image = Properties.Resources.Cura;
+            health.Size = new Size(130, 130);
+            health.Left = randNum.Next(10, this.ClientSize.Width - health.Width);
+            health.Top = randNum.Next(60, this.ClientSize.Height - health.Height);
+            health.Tag = "health";
+            this.Controls.Add(health);
+            health.BringToFront();
+            player.BringToFront();
+        }
+
         private void RestartGame()
         {
+            healthDropped = false;
             player.Image = Properties.Resources.up;
 
             foreach (PictureBox i in zombiesList)

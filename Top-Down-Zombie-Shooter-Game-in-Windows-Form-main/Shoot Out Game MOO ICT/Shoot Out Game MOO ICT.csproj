@@ -10,4 +10,8 @@
     <StartupObject>Shoot_Out_Game_MOO_ICT.Program</StartupObject>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Cura.png" />
+  </ItemGroup>
+
 </Project>
