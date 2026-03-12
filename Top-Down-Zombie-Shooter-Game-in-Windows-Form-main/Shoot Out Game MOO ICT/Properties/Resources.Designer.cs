@@ -171,5 +171,14 @@ namespace Shoot_Out_Game_MOO_ICT.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+
+        internal static System.Drawing.Bitmap background_road
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("background_road", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
