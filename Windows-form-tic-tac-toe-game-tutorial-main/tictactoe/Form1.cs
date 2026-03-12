@@ -1,3 +1,5 @@
+using System.Reflection.Emit;
+
 namespace tictactoe
 {
     public partial class Form1 : Form
@@ -17,6 +19,7 @@ namespace tictactoe
         Random rand = new Random(); // importing the random number generator class
         int playerWins = 0; // set the player win integer to 0
         int computerWins = 0; // set the computer win integer to 0
+        int draws = 0;
 
         public Form1()
         {
@@ -26,39 +29,87 @@ namespace tictactoe
 
         private void playerClick(object sender, EventArgs e)
         {
-            var button = (Button)sender; // find which button was clicked
-            currentPlayer = Player.X; // set the player to X
-            button.Text = currentPlayer.ToString(); // change the button text to player X
-            button.Enabled = false; // disable the button
-            button.BackColor = System.Drawing.Color.Cyan; // change the player colour to Cyan
-            buttons.Remove(button); //remove the button from the list buttons so the AI can't click it either
-            Check(); // check if the player won
-            AImoves.Start(); // start the AI timer
+            var button = (Button)sender;
+            currentPlayer = Player.X;
+            button.Text = currentPlayer.ToString();
+            button.Enabled = false;
+            button.BackColor = System.Drawing.Color.Cyan;
+            buttons.Remove(button);
+            Check();
+
+            // Desabilita TODOS os botões disponíveis enquanto IA pensa
+            foreach (Button b in buttons)
+                b.Enabled = false;
+
+            AImoves.Start();
         }
 
         private void AImove(object sender, EventArgs e)
         {
-            // THE CPU will randomly choose a button from the list to click. 
-            // While the array is greater than 0 the cpu will operate in the game
-            // if the array is less than 0 it will stop playing
             if (buttons.Count > 0)
             {
-                int index = rand.Next(buttons.Count); // generate a random number within the number of buttons available
-                buttons[index].Enabled = false; // assign the number to the button
-                // when the random number is generated then we will look into the list
-                // for what that number is we select that button
-                // for example if the number is 8
-                // then we select the 8th button in the list
+                currentPlayer = Player.O;
+                AImoves.Stop();
 
-                currentPlayer = Player.O; // set the AI with O
-                buttons[index].Text = currentPlayer.ToString(); // show O on the button
-                buttons[index].BackColor = System.Drawing.Color.DarkSalmon; // change the background of the button dark salmon colour
-                buttons.RemoveAt(index); // remove that button from the list
-                Check(); // check if the AI won anything
-                AImoves.Stop(); // stop the AI timer
+                List<Button[]> winCombos = new List<Button[]>
+        {
+            new[] { button1, button2, button3 },
+            new[] { button4, button5, button6 },
+            new[] { button7, button8, button9 },
+            new[] { button1, button4, button7 },
+            new[] { button2, button5, button8 },
+            new[] { button3, button6, button9 },
+            new[] { button1, button5, button9 },
+            new[] { button3, button5, button7 }
+        };
+
+                Button chosen = null;
+
+                // 1. tentar vencer
+                foreach (var combo in winCombos)
+                {
+                    var empty = combo.Where(b => buttons.Contains(b)).ToList();
+                    var filled = combo.Where(b => b.Text == "O").ToList();
+                    if (filled.Count == 2 && empty.Count == 1)
+                    {
+                        chosen = empty[0];
+                        break;
+                    }
+                }
+
+                // 2. bloquear o jogador
+                if (chosen == null)
+                {
+                    foreach (var combo in winCombos)
+                    {
+                        var empty = combo.Where(b => buttons.Contains(b)).ToList();
+                        var filled = combo.Where(b => b.Text == "X").ToList();
+                        if (filled.Count == 2 && empty.Count == 1)
+                        {
+                            chosen = empty[0];
+                            break;
+                        }
+                    }
+                }
+
+                // 3. jogar aleatório
+                if (chosen == null)
+                {
+                    int index = rand.Next(buttons.Count);
+                    chosen = buttons[index];
+                }
+
+                chosen.Enabled = false;
+                chosen.Text = currentPlayer.ToString();
+                chosen.BackColor = System.Drawing.Color.DarkSalmon;
+                buttons.Remove(chosen);
+                Check();
+
+                // Reabilita os botões restantes para o jogador
+                foreach (Button b in buttons)
+                    b.Enabled = true;
             }
         }
-
         private void restartGame(object sender, EventArgs e)
         {
             // this function is linked with the reset button
@@ -128,8 +179,21 @@ namespace tictactoe
                 label2.Text = "AI Wins- " + computerWins; // update the label 2 for computer wins
                 resetGame(); // run the reset game
             }
+
+            else if (buttons.Count == 0)
+            {
+                
+                AImoves.Stop();
+                MessageBox.Show("Empate!");
+                draws++;
+                label3.Text = "Empates- " + draws;
+                resetGame();
+            }
         }
 
-
+        private void label3_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
