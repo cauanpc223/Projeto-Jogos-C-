@@ -197,6 +197,20 @@ namespace Shoot_Out_Game_MOO_ICT
                     }
                 }
             }
+
+            foreach (Control x in this.Controls)
+            {
+                if (x is PictureBox && ((string)x.Tag == "ammo" || (string)x.Tag == "health"))
+                    x.SendToBack();
+            }
+
+            player.BringToFront();
+
+            foreach (Control x in this.Controls)
+            {
+                if (x is PictureBox && ((string)x.Tag == "zombie" || (string)x.Tag == "zombie_giant"))
+                    x.BringToFront();
+            }
         }
 
         private void KeyIsDown(object sender, KeyEventArgs e)
@@ -295,6 +309,7 @@ namespace Shoot_Out_Game_MOO_ICT
         private void MakeZombies()
         {
             PictureBox zombie = new PictureBox();
+            zombie.BackColor = Color.Transparent;
 
             bool isGiant = (score > 0 && score % 10 == 0);
 
@@ -322,6 +337,7 @@ namespace Shoot_Out_Game_MOO_ICT
         private void DropAmmo()
         {
             PictureBox ammo = new PictureBox();
+            ammo.BackColor = Color.Transparent;
             ammo.Image = Properties.Resources.ammo_Image;
             ammo.SizeMode = PictureBoxSizeMode.AutoSize;
             ammo.Left = randNum.Next(10, this.ClientSize.Width - ammo.Width);
@@ -336,6 +352,7 @@ namespace Shoot_Out_Game_MOO_ICT
         private void DropHealth()
         {
             PictureBox health = new PictureBox();
+            health.BackColor = Color.Transparent;
             health.Image = Properties.Resources.Cura;
             health.SizeMode = PictureBoxSizeMode.StretchImage;
             health.Size = new Size(48, 48);

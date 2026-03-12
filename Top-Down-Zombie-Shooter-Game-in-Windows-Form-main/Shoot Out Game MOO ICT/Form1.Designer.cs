@@ -93,6 +93,7 @@
             player.Name = "player";
             player.Size = new Size(71, 100);
             player.SizeMode = PictureBoxSizeMode.AutoSize;
+            player.BackColor = Color.Transparent;
             player.TabIndex = 2;
             player.TabStop = false;
             // 
@@ -143,6 +144,8 @@
             KeyDown += KeyIsDown;
             KeyUp += KeyIsUp;
             ((System.ComponentModel.ISupportInitialize)player).EndInit();
+            this.BackgroundImage = Properties.Resources.background_road;
+            this.BackgroundImageLayout = ImageLayout.Stretch;
             ResumeLayout(false);
             PerformLayout();
 
