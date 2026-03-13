@@ -37,7 +37,6 @@ namespace Shoot_Out_Game_MOO_ICT
             InitializeComponent();
             this.KeyPreview = true;
 
-            reloadSound.LoadAsync();
             zombieGruntSound.LoadAsync();
             playerDamageSound.LoadAsync();
             giantGruntSound.LoadAsync();
