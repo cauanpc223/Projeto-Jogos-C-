@@ -180,5 +180,63 @@ namespace Shoot_Out_Game_MOO_ICT.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+
+        internal static System.IO.UnmanagedMemoryStream gun_shot
+        {
+            get
+            {
+                return ResourceManager.GetStream("gun_shot", resourceCulture);
+            }
+        }
+
+        internal static System.IO.UnmanagedMemoryStream giant_zombie_grunt
+        {
+            get
+            {
+                return ResourceManager.GetStream("giant_zombie_grunt", resourceCulture);
+            }
+        }
+
+        internal static System.IO.UnmanagedMemoryStream heal
+        {
+            get
+            {
+                return ResourceManager.GetStream("heal", resourceCulture);
+            }
+        }
+
+        internal static System.IO.UnmanagedMemoryStream player_damage
+        {
+            get
+            {
+                return ResourceManager.GetStream("player_damage", resourceCulture);
+            }
+        }
+
+        internal static System.IO.UnmanagedMemoryStream reload
+        {
+            get
+            {
+                // Note que em vez de GetObject, usamos GetStream
+                return ResourceManager.GetStream("reload", resourceCulture);
+            }
+        }
+
+        internal static System.IO.UnmanagedMemoryStream shooting_without_ammo
+        {
+            get
+            {
+                // Note que em vez de GetObject, usamos GetStream
+                return ResourceManager.GetStream("shooting_without_ammo", resourceCulture);
+            }
+        }
+
+        internal static System.IO.UnmanagedMemoryStream zombie_grunt
+        {
+            get
+            {
+                return ResourceManager.GetStream("zombie_grunt", resourceCulture);
+            }
+        }
     }
 }

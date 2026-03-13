@@ -1,5 +1,4 @@
 using System.Numerics;
-using System.Media;
 
 namespace Shoot_Out_Game_MOO_ICT
 {
@@ -21,14 +20,7 @@ namespace Shoot_Out_Game_MOO_ICT
         int elapsedMilliseconds = 0;
         DateTime lastDamageTime = DateTime.MinValue;
 
-        SoundPlayer reloadSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\reload.wav");
-        SoundPlayer zombieGruntSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\454837__misterkidx__zombie_hit.wav");
-        SoundPlayer playerDamageSound = new SoundPlayer(@"C:\Users\igore\source\repos\cauanpc223\Projeto-Jogos-C-\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\Shoot Out Game MOO ICT\Resources\Sounds\player_damage.wav");
-        SoundPlayer giantGruntSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\giant_zombie_grunt.wav");
-        SoundPlayer healSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\heal.wav");
-        SoundPlayer gunShotSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\gun_shot.wav");
-        SoundPlayer gunWithoutAmmoSound = new SoundPlayer("C:\\Users\\igore\\source\\repos\\cauanpc223\\Projeto-Jogos-C-\\Top-Down-Zombie-Shooter-Game-in-Windows-Form-main\\Shoot Out Game MOO ICT\\Resources\\Sounds\\shooting_without_ammo.wav");
-
+        GerenciadorDeAudio audioEngine = new GerenciadorDeAudio();
 
         Dictionary<PictureBox, int> giantHits = new Dictionary<PictureBox, int>();
 
@@ -36,14 +28,6 @@ namespace Shoot_Out_Game_MOO_ICT
         {
             InitializeComponent();
             this.KeyPreview = true;
-
-            zombieGruntSound.LoadAsync();
-            playerDamageSound.LoadAsync();
-            giantGruntSound.LoadAsync();
-            healSound.LoadAsync();
-            gunShotSound.LoadAsync();
-            gunWithoutAmmoSound.LoadAsync();
-
             RestartGame();
         }
 
@@ -108,7 +92,7 @@ namespace Shoot_Out_Game_MOO_ICT
                 {
                     if (player.Bounds.IntersectsWith(x.Bounds))
                     {
-                        reloadSound.Play();
+                        audioEngine.TocarSom(Properties.Resources.reload);
                         this.Controls.Remove(x);
                         ((PictureBox)x).Dispose();
                         ammo += 5;
@@ -121,7 +105,7 @@ namespace Shoot_Out_Game_MOO_ICT
                     {
                         if ((DateTime.Now - lastDamageTime).TotalMilliseconds >= 1000)
                         {
-                            playerDamageSound.Play();
+                            audioEngine.TocarSom(Properties.Resources.player_damage);
 
                             playerHealth -= 22;
 
@@ -158,7 +142,7 @@ namespace Shoot_Out_Game_MOO_ICT
                         if (x.Bounds.IntersectsWith(j.Bounds))
                         {
                             score++;
-                            zombieGruntSound.Play();
+                            audioEngine.TocarSom(Properties.Resources.zombie_grunt);
                             this.Controls.Remove(j);
                             ((PictureBox)j).Dispose();
                             this.Controls.Remove(x);
@@ -180,7 +164,7 @@ namespace Shoot_Out_Game_MOO_ICT
                                 giantHits[giant] = 0;
 
                             giantHits[giant]++;
-                            giantGruntSound.Play();
+                            audioEngine.TocarSom(Properties.Resources.giant_zombie_grunt);
 
                             if (giantHits[giant] >= 3)
                             {
@@ -200,7 +184,7 @@ namespace Shoot_Out_Game_MOO_ICT
                 {
                     if (player.Bounds.IntersectsWith(x.Bounds))
                     {
-                        healSound.Play();
+                        audioEngine.TocarSom(Properties.Resources.heal);
                         this.Controls.Remove(x);
                         ((PictureBox)x).Dispose();
                         playerHealth = Math.Min(playerHealth + 30, 100);
@@ -285,7 +269,7 @@ namespace Shoot_Out_Game_MOO_ICT
             if (e.KeyCode == Keys.Space && ammo > 0 && gameOver == false)
             {
                 ammo--;
-                gunShotSound.Play();
+                audioEngine.TocarSom(Properties.Resources.gun_shot);
                 ShootBullet(facing);
 
                 if (ammo < 1)
@@ -296,7 +280,7 @@ namespace Shoot_Out_Game_MOO_ICT
 
             if(e.KeyCode == Keys.Space && ammo == 0 && gameOver == false)
             {
-                gunWithoutAmmoSound.Play();
+                audioEngine.TocarSom(Properties.Resources.shooting_without_ammo);
             }
 
             if (e.KeyCode == Keys.Enter && gameOver == true)
@@ -406,6 +390,12 @@ namespace Shoot_Out_Game_MOO_ICT
             goRight = false;
             gameOver = false;
             GameTimer.Start();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            audioEngine.Encerrar();
+            base.OnFormClosed(e);
         }
 
         private void ButtonReset(object sender, EventArgs e)
